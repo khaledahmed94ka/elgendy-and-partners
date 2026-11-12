@@ -46,7 +46,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className={`${cairo.variable} ${playfair.variable}`}>
+    <html lang="ar" dir="rtl" className={}>
       <body className="min-h-screen flex flex-col bg-[#fdfbf7] text-[#0e2047] antialiased selection:bg-[#c29a93] selection:text-white">
         {children}
       </body>
