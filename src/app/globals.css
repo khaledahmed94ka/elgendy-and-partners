@@ -19,10 +19,6 @@
 :root {
   --background: #fdfbf7;
   --foreground: #0e2047;
-  --primary: #0e2047;
-  --primary-foreground: #ffffff;
-  --accent: #c29a93;
-  --accent-foreground: #ffffff;
 }
 
 html {
@@ -36,7 +32,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Custom legal accents & scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }

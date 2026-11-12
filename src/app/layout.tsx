@@ -19,7 +19,7 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "الجندي للمحاماة والاستشارات القانونية | El Gendy & Partners",
   description:
-    "مكتب الجندي للمحاماة والاستشارات القانونية - متخصصون في قانون الشركات وتأسيس الشركات، سوق المال، المنازعات التجارية، والمحاكم الاقتصادية والجنائية والمدنية.",
+    "مكتب الجندي للمحاماة والاستشارات القانونية - متخصصون في قانون الشركات وتأسيس الكيانات، سوق المال، المحاكم الاقتصادية والمنازعات التجارية، والقضايا الجنائية والمدنية.",
   keywords: [
     "محامي شركات",
     "تأسيس شركات في مصر",
@@ -46,7 +46,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className={}>
+    <html lang="ar" dir="rtl" className={`${cairo.variable} ${playfair.variable}`}>
       <body className="min-h-screen flex flex-col bg-[#fdfbf7] text-[#0e2047] antialiased selection:bg-[#c29a93] selection:text-white">
         {children}
       </body>
