@@ -554,7 +554,9 @@ header.main-header .header-sticky.active{
 }
 
 .navbar-brand img{
-	max-width: 147px;
+	max-width: 260px;
+	width: 100%;
+	height: auto;
 }
 
 .main-menu .nav-menu-wrapper{
@@ -2452,7 +2454,8 @@ header.main-header .header-sticky.active{
 
 .footer-logo img{
     width: 100%;
-    max-width: 147px;
+    max-width: 220px;
+    height: auto;
 }
 
 .about-footer-content{
