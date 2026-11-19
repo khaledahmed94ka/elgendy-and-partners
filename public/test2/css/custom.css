@@ -11132,3 +11132,25 @@ header.main-header-gold .header-sticky.active{
         padding: 15px 0;
     }
 }
+
+@media (prefers-reduced-motion: reduce){
+    .text-effect,
+    .text-effect *,
+    .text-anime-style-1,
+    .text-anime-style-1 *,
+    .text-anime-style-2,
+    .text-anime-style-2 *,
+    .text-anime-style-3,
+    .text-anime-style-3 *{
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .wow{
+        visibility: visible !important;
+        animation: none !important;
+    }
+}

@@ -6,10 +6,16 @@
 
 	/* SmoothScroll */
 	const lenis = new Lenis({ autoRaf: true, wheelMultiplier: 1.5, touchMultiplier: 1.5 });
+	if (typeof ScrollTrigger !== 'undefined') {
+		lenis.on('scroll', ScrollTrigger.update);
+	}
 
 	/* Preloader Effect */
 	$window.on('load', function(){
 		$(".preloader").fadeOut(600);
+		if (typeof ScrollTrigger !== 'undefined') {
+			ScrollTrigger.refresh();
+		}
 	});
 
 	/* Sticky Header */	
@@ -161,9 +167,23 @@
 		$('.counter').counterUp({ delay: 6, time: 3000 });
 	}
 
+	/* Register GSAP Plugins & Disable Lag Smoothing
+	 * GSAP's default lagSmoothing(500, 33) clamps throttled rAF ticks (background tabs,
+	 * occluded windows, headless/automated browsers) to 33ms per tick, which stalls
+	 * staggered SplitText reveals mid-flight. Disabling it ensures tweens advance by
+	 * true wall-clock time instead of freezing partially faded. */
+	if (typeof gsap !== 'undefined') {
+		if (typeof ScrollTrigger !== 'undefined') {
+			gsap.registerPlugin(ScrollTrigger);
+		}
+		if (typeof SplitText !== 'undefined') {
+			gsap.registerPlugin(SplitText);
+		}
+		gsap.ticker.lagSmoothing(0);
+	}
+
 	/* Image Reveal Animation */
 	if ($('.reveal').length) {
-        gsap.registerPlugin(ScrollTrigger);
         let revealContainers = document.querySelectorAll(".reveal");
         revealContainers.forEach((container) => {
             let image = container.querySelector("img");
@@ -190,24 +210,96 @@
     }
 
 	/* Text Effect Animation */
+	var headingAnimationsInitialized = false;
+	var headingAnimationEntries = [];
+
+	function revealHeadingFinalState(entry) {
+		if (!entry || entry.revealed) return;
+		entry.revealed = true;
+
+		if (entry.watchdogTimer) {
+			clearTimeout(entry.watchdogTimer);
+			entry.watchdogTimer = null;
+		}
+		if (entry.anim) {
+			if (entry.anim.scrollTrigger) {
+				entry.anim.scrollTrigger.kill(false);
+			}
+			entry.anim.progress(1).kill();
+		}
+		if (entry.targets && entry.targets.length && typeof gsap !== 'undefined') {
+			gsap.set(entry.targets, {
+				opacity: 1,
+				visibility: "visible",
+				x: 0,
+				y: 0,
+				rotateX: 0,
+				clearProps: "transform,opacity,visibility"
+			});
+		}
+		if (entry.split && typeof entry.split.revert === 'function') {
+			entry.split.revert();
+		}
+		if (entry.element && typeof gsap !== 'undefined') {
+			gsap.set(entry.element, {
+				opacity: 1,
+				visibility: "visible",
+				clearProps: "perspective,transform,opacity,visibility"
+			});
+		}
+	}
+
+	function revealAllHeadingsFallback() {
+		headingAnimationEntries.forEach(revealHeadingFinalState);
+		// Defensive guard in case any heading retains stale inline opacity/transform
+		document.querySelectorAll('.text-effect, .text-anime-style-1, .text-anime-style-2, .text-anime-style-3').forEach(function (el) {
+			el.style.opacity = '';
+			el.style.visibility = '';
+			el.style.transform = '';
+			el.querySelectorAll('div, span').forEach(function (child) {
+				child.style.opacity = '';
+				child.style.visibility = '';
+				child.style.transform = '';
+			});
+		});
+	}
+
+	function scheduleEntryWatchdog(entry, timeoutMs) {
+		if (entry.revealed || entry.watchdogTimer) return;
+		entry.watchdogTimer = setTimeout(function () {
+			revealHeadingFinalState(entry);
+		}, timeoutMs);
+	}
+
 	function initHeadingAnimation() {
-		
-		if($('.text-effect').length) {
+		if (headingAnimationsInitialized) return;
+		headingAnimationsInitialized = true;
+
+		// Respect user reduced-motion preference: leave all headings immediately visible
+		if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+			return;
+		}
+		if (typeof gsap === 'undefined' || typeof SplitText === 'undefined') {
+			return;
+		}
+
+		if ($('.text-effect').length) {
 			var textheading = $(".text-effect");
 
-			if(textheading.length === 0) return; gsap.registerPlugin(SplitText); textheading.each(function(index, el) {
-				
-				el.split = new SplitText(el, { 
+			textheading.each(function (index, el) {
+				el.split = new SplitText(el, {
 					type: "lines,words,chars",
 					linesClass: "split-line"
 				});
-				
-				if( $(el).hasClass('text-effect') ){
+
+				if ($(el).hasClass('text-effect')) {
 					gsap.set(el.split.chars, {
-						opacity: .3,
+						opacity: 0.3,
 						x: "-7",
 					});
 				}
+
+				var entry = { element: el, split: el.split, targets: el.split.chars, anim: null, revealed: false, watchdogTimer: null };
 				el.anim = gsap.to(el.split.chars, {
 					scrollTrigger: {
 						trigger: el,
@@ -215,63 +307,87 @@
 						end: "top 60%",
 						markers: false,
 						scrub: 1,
+						onEnter: function () { scheduleEntryWatchdog(entry, 1800); },
 					},
-
 					x: "0",
 					y: "0",
 					opacity: 1,
-					duration: .7,
+					duration: 0.7,
 					stagger: 0.2,
 				});
-				
+				entry.anim = el.anim;
+				headingAnimationEntries.push(entry);
 			});
 		}
-		
+
 		if ($('.text-anime-style-1').length) {
-			let staggerAmount 	= 0.05,
-				translateXValue = 0,
-				delayValue 		= 0.5,
-			   animatedTextElements = document.querySelectorAll('.text-anime-style-1');
-			
+			let delayValue = 0.2,
+				animatedTextElements = document.querySelectorAll('.text-anime-style-1');
+
 			animatedTextElements.forEach((element) => {
 				let animationSplitText = new SplitText(element, { type: "chars, words" });
-					gsap.from(animationSplitText.words, {
-					duration: 1,
+				let wordCount = animationSplitText.words.length;
+				let staggerAmount = wordCount > 0 ? Math.min(0.05, 0.4 / wordCount) : 0.05;
+				let entry = { element: element, split: animationSplitText, targets: animationSplitText.words, anim: null, revealed: false, watchdogTimer: null };
+
+				entry.anim = gsap.from(animationSplitText.words, {
+					duration: 0.75,
 					delay: delayValue,
 					x: 20,
 					autoAlpha: 0,
 					stagger: staggerAmount,
-					scrollTrigger: { trigger: element, start: "top 85%" },
-					});
-			});		
+					scrollTrigger: {
+						trigger: element,
+						start: "top 85%",
+						once: true,
+						onEnter: function () { scheduleEntryWatchdog(entry, 1600); },
+					},
+					onComplete: function () { revealHeadingFinalState(entry); },
+				});
+				element.split = animationSplitText;
+				element.animation = entry.anim;
+				headingAnimationEntries.push(entry);
+			});
 		}
-		
-		if ($('.text-anime-style-2').length) {				
-			let	 staggerAmount 		= 0.03,
-				 translateXValue	= 20,
-				 delayValue 		= 0.1,
-				 easeType 			= "power2.out",
-				 animatedTextElements = document.querySelectorAll('.text-anime-style-2');
-			
+
+		if ($('.text-anime-style-2').length) {
+			let translateXValue = 20,
+				delayValue = 0.1,
+				easeType = "power2.out",
+				animatedTextElements = document.querySelectorAll('.text-anime-style-2');
+
 			animatedTextElements.forEach((element) => {
 				let animationSplitText = new SplitText(element, { type: "chars, words" });
-					gsap.from(animationSplitText.chars, {
-						duration: 1,
-						delay: delayValue,
-						x: translateXValue,
-						autoAlpha: 0,
-						stagger: staggerAmount,
-						ease: easeType,
-						scrollTrigger: { trigger: element, start: "top 85%"},
-					});
-			});		
+				let charCount = animationSplitText.chars.length;
+				let staggerAmount = charCount > 0 ? Math.min(0.03, 0.4 / charCount) : 0.03;
+				let entry = { element: element, split: animationSplitText, targets: animationSplitText.chars, anim: null, revealed: false, watchdogTimer: null };
+
+				entry.anim = gsap.from(animationSplitText.chars, {
+					duration: 0.75,
+					delay: delayValue,
+					x: translateXValue,
+					autoAlpha: 0,
+					stagger: staggerAmount,
+					ease: easeType,
+					scrollTrigger: {
+						trigger: element,
+						start: "top 85%",
+						once: true,
+						onEnter: function () { scheduleEntryWatchdog(entry, 1600); },
+					},
+					onComplete: function () { revealHeadingFinalState(entry); },
+				});
+				element.split = animationSplitText;
+				element.animation = entry.anim;
+				headingAnimationEntries.push(entry);
+			});
 		}
-		
-		if ($('.text-anime-style-3').length) {		
-			let	animatedTextElements = document.querySelectorAll('.text-anime-style-3');
-			
-			 animatedTextElements.forEach((element) => {
-				//Reset if needed
+
+		if ($('.text-anime-style-3').length) {
+			let animatedTextElements = document.querySelectorAll('.text-anime-style-3');
+
+			animatedTextElements.forEach((element) => {
+				// Reset if needed
 				if (element.animation) {
 					element.animation.progress(1).kill();
 					element.split.revert();
@@ -288,27 +404,48 @@
 					x: "50",
 				});
 
+				let charCount = element.split.chars.length;
+				let staggerEach = charCount > 0 ? Math.min(0.02, 0.4 / charCount) : 0.02;
+				let entry = { element: element, split: element.split, targets: element.split.chars, anim: null, revealed: false, watchdogTimer: null };
+
 				element.animation = gsap.to(element.split.chars, {
-					scrollTrigger: { trigger: element,	start: "top 90%" },
+					scrollTrigger: {
+						trigger: element,
+						start: "top 90%",
+						once: true,
+						onEnter: function () { scheduleEntryWatchdog(entry, 1600); },
+					},
 					x: "0",
 					y: "0",
 					rotateX: "0",
 					opacity: 1,
-					duration: 1,
+					duration: 0.75,
 					ease: Back.easeOut,
-					stagger: 0.02,
+					stagger: staggerEach,
+					onComplete: function () { revealHeadingFinalState(entry); },
 				});
-			});		
+				entry.anim = element.animation;
+				headingAnimationEntries.push(entry);
+			});
 		}
+
+		if (typeof ScrollTrigger !== 'undefined') {
+			ScrollTrigger.refresh();
+		}
+
+		// Bounded safety fallback: force all headings to full visibility regardless of
+		// ScrollTrigger status or rAF throttling (e.g. automated screenshots, no scroll).
+		setTimeout(revealAllHeadingsFallback, 2000);
 	}
-	
+
 	if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(() => {
-            initHeadingAnimation();
-        });
-    } else {
-        window.addEventListener("load", initHeadingAnimation);
-    }
+		document.fonts.ready.then(initHeadingAnimation);
+		// Guard against slow/blocked webfont requests delaying heading reveal
+		setTimeout(initHeadingAnimation, 800);
+	} else {
+		window.addEventListener("load", initHeadingAnimation);
+		setTimeout(initHeadingAnimation, 800);
+	}
 
 	/* Parallaxie js */
 	var $parallaxie = $('.parallaxie');
