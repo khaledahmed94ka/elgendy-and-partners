@@ -1,0 +1,1031 @@
+/* ----------------------------------------------------------------------------------------
+ * File          : rtl.css
+ * Description   : Full RTL (Arabic) overrides for El Gendy and Partners website
+ *                 Loaded after custom.css on public/test2/ar/*.html pages only.
+ * ---------------------------------------------------------------------------------------- */
+
+/************************************/
+/***    01. Global & Typography   ***/
+/************************************/
+
+:root {
+	--default-font: "Cairo", "Inter Tight", sans-serif;
+}
+
+html[dir="rtl"],
+html[dir="rtl"] body {
+	direction: rtl;
+	text-align: right;
+	font-family: var(--default-font);
+}
+
+html[dir="rtl"] p {
+	line-height: 1.85em;
+}
+
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] h4,
+html[dir="rtl"] h5,
+html[dir="rtl"] h6 {
+	line-height: 1.35em;
+	letter-spacing: 0 !important;
+	text-transform: none;
+}
+
+html[dir="rtl"] ::-webkit-scrollbar-track {
+	border-left: none;
+	border-right: 1px solid var(--primary-color);
+}
+
+/* Keep phone numbers and email addresses readable left-to-right in RTL */
+html[dir="rtl"] a[href^="tel:"],
+html[dir="rtl"] a[href^="mailto:"],
+html[dir="rtl"] .ltr-inline {
+	direction: ltr;
+	unicode-bidi: embed;
+	display: inline-block;
+}
+
+/* Bootstrap 5 LTR utility & component RTL fixes */
+html[dir="rtl"] .mr-auto {
+	margin-right: 0 !important;
+	margin-left: auto !important;
+}
+
+html[dir="rtl"] .ml-auto {
+	margin-left: 0 !important;
+	margin-right: auto !important;
+}
+
+html[dir="rtl"] .text-start,
+html[dir="rtl"] .text-left {
+	text-align: right !important;
+}
+
+html[dir="rtl"] .text-end,
+html[dir="rtl"] .text-right {
+	text-align: left !important;
+}
+
+html[dir="rtl"] .float-start,
+html[dir="rtl"] .float-left {
+	float: right !important;
+}
+
+html[dir="rtl"] .float-end,
+html[dir="rtl"] .float-right {
+	float: left !important;
+}
+
+html[dir="rtl"] .breadcrumb {
+	padding-right: 0;
+}
+
+html[dir="rtl"] .breadcrumb-item + .breadcrumb-item {
+	padding-left: 0;
+	padding-right: var(--bs-breadcrumb-item-padding-x, 0.5rem);
+}
+
+html[dir="rtl"] .breadcrumb-item + .breadcrumb-item::before {
+	float: right;
+	padding-right: 0;
+	padding-left: var(--bs-breadcrumb-item-padding-x, 0.5rem);
+}
+
+html[dir="rtl"] .form-control,
+html[dir="rtl"] .form-select,
+html[dir="rtl"] input,
+html[dir="rtl"] textarea,
+html[dir="rtl"] select {
+	text-align: right;
+}
+
+html[dir="rtl"] input[type="email"],
+html[dir="rtl"] input[type="tel"],
+html[dir="rtl"] input[type="url"] {
+	direction: rtl;
+	text-align: right;
+}
+
+html[dir="rtl"] .form-select {
+	background-position: left 0.75rem center;
+	padding: 0.375rem 0.75rem 0.375rem 2.25rem;
+}
+
+/************************************/
+/***    02. Buttons & Sections    ***/
+/************************************/
+
+html[dir="rtl"] .btn-default {
+	padding: 18px 24px 18px 57px;
+	text-transform: none;
+}
+
+html[dir="rtl"] .btn-default:hover {
+	padding: 18px 57px 18px 24px;
+}
+
+html[dir="rtl"] .btn-default::before {
+	right: auto;
+	left: 5px;
+	transform: translateY(-50%) scaleX(-1);
+}
+
+html[dir="rtl"] .btn-default:hover::before {
+	right: auto;
+	left: 100%;
+	transform: translate(calc(-100% - 5px), -50%) scaleX(-1);
+}
+
+html[dir="rtl"] .btn-default::after,
+html[dir="rtl"] .btn-default:hover::after {
+	right: auto;
+	left: 0;
+}
+
+html[dir="rtl"] .readmore-btn {
+	padding: 2px 0 2px 34px;
+	text-transform: none;
+}
+
+html[dir="rtl"] .readmore-btn::before {
+	right: auto;
+	left: 0;
+	transform: translate(2px, -50%) scaleX(-1);
+}
+
+html[dir="rtl"] .readmore-btn:hover::before {
+	transform: translate(0, -50%) scaleX(-1);
+}
+
+html[dir="rtl"] .section-btn {
+	text-align: left;
+}
+
+html[dir="rtl"] .section-content-btn .section-btn {
+	text-align: right;
+}
+
+html[dir="rtl"] .section-title .section-sub-title {
+	letter-spacing: 0;
+	text-transform: none;
+	padding-left: 0;
+	padding-right: 32px;
+}
+
+html[dir="rtl"] .section-title .section-sub-title::before {
+	left: auto;
+	right: 0;
+}
+
+html[dir="rtl"] .section-title h1 {
+	text-transform: none;
+}
+
+html[dir="rtl"] .help-block.with-errors ul {
+	text-align: right;
+}
+
+html[dir="rtl"] .reveal img {
+	-webkit-transform-origin: right;
+	transform-origin: right;
+}
+
+/************************************/
+/***    03. Header & Navigation   ***/
+/************************************/
+
+html[dir="rtl"] .main-menu ul li {
+	margin: 0 7px;
+}
+
+html[dir="rtl"] .main-menu ul li a {
+	text-transform: none;
+	white-space: nowrap;
+}
+
+html[dir="rtl"] .main-menu ul li.submenu > a:after {
+	margin-left: 0;
+	margin-right: 8px;
+}
+
+html[dir="rtl"] .main-menu ul ul {
+	left: auto;
+	right: 0;
+	text-align: right;
+	width: 265px;
+}
+
+html[dir="rtl"] .main-menu ul li.submenu:first-child ul {
+	width: 235px;
+}
+
+html[dir="rtl"] .main-menu ul ul ul {
+	left: auto;
+	right: 100%;
+	text-align: right;
+}
+
+html[dir="rtl"] .main-menu ul li.submenu ul li.submenu > a:after {
+	content: '\f104';
+	float: left;
+}
+
+html[dir="rtl"] .main-menu ul ul li a {
+	white-space: normal;
+	line-height: 1.4em;
+}
+
+html[dir="rtl"] .main-menu ul ul li a:hover,
+html[dir="rtl"] .main-menu ul ul li a:focus {
+	padding: 10px 23px 10px 20px !important;
+}
+
+html[dir="rtl"] .main-menu ul li.lang-switcher a {
+	font-weight: 700;
+	color: var(--accent-color);
+	letter-spacing: 0;
+}
+
+html[dir="rtl"] .main-menu ul li.lang-switcher a:hover {
+	color: var(--white-color);
+}
+
+html[dir="rtl"] .main-header-gold .main-menu ul li.lang-switcher a:hover {
+	color: var(--primary-color);
+}
+
+/* Mobile SlickNav RTL */
+html[dir="rtl"] .slicknav_btn {
+	float: left;
+}
+
+html[dir="rtl"] .slicknav_menu,
+html[dir="rtl"] .slicknav_nav {
+	text-align: right;
+}
+
+html[dir="rtl"] .slicknav_nav ul {
+	margin: 0 20px 0 0;
+}
+
+html[dir="rtl"] .slicknav_nav .slicknav_row,
+html[dir="rtl"] .slicknav_nav li a {
+	text-transform: none;
+	text-align: right;
+}
+
+html[dir="rtl"] .slicknav_menu ul ul li a {
+	padding: 8px 30px 8px 20px;
+}
+
+html[dir="rtl"] .slicknav_nav .slicknav_arrow {
+	margin: 0 0.4em 0 0;
+}
+
+html[dir="rtl"] .slicknav_arrow:after {
+	margin-left: 0;
+	margin-right: 8px;
+	right: auto;
+	left: 15px;
+}
+
+html[dir="rtl"] .slicknav_nav .slicknav_txtnode {
+	margin-left: 0;
+	margin-right: 15px;
+}
+
+html[dir="rtl"] .slicknav_brand {
+	float: right;
+}
+
+/************************************/
+/***    04. Hero & Ticker         ***/
+/************************************/
+
+html[dir="rtl"] .hero-title-images img {
+	margin-left: 0;
+	margin-right: -17px;
+}
+
+html[dir="rtl"] .hero-title-images img:first-child {
+	margin-right: 0;
+}
+
+html[dir="rtl"] .hero-title-box h1 {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 12px;
+}
+
+html[dir="rtl"] .hero-title-images {
+	display: inline-flex;
+	margin-top: 4px;
+}
+
+html[dir="rtl"] .video-play-button a span i {
+	margin-left: 0;
+	margin-right: 1px;
+}
+
+/* Keep scrolling ticker track LTR so continuous translateX(-100%) stays seamless while Arabic spans render RTL */
+html[dir="rtl"] .scrolling-ticker-box,
+html[dir="rtl"] .impact-scrolling-ticker-box {
+	direction: ltr;
+}
+
+html[dir="rtl"] .scrolling-content span,
+html[dir="rtl"] .impact-scrolling-content span {
+	direction: rtl;
+	unicode-bidi: isolate;
+}
+
+/************************************/
+/***    05. About & Services      ***/
+/************************************/
+
+html[dir="rtl"] .about-us-image-box {
+	margin-right: 0;
+	margin-left: 15px;
+}
+
+html[dir="rtl"] .about-us-image {
+	padding: 30px 30px 60px 60px;
+}
+
+html[dir="rtl"] .about-us-image::before {
+	left: auto;
+	right: 0;
+}
+
+html[dir="rtl"] .about-experience-box {
+	right: auto;
+	left: 0;
+}
+
+html[dir="rtl"] .satisfy-client-image {
+	margin-left: 0;
+	margin-right: -14px;
+}
+
+html[dir="rtl"] .satisfy-client-image:first-child {
+	margin-right: 0;
+}
+
+html[dir="rtl"] .service-item-btn a img {
+	transform: rotate(-135deg);
+}
+
+html[dir="rtl"] .service-item:hover .service-item-btn a img,
+html[dir="rtl"] .service-item-btn a:hover img {
+	transform: rotate(-180deg);
+}
+
+html[dir="rtl"] .service-cta-box {
+	padding: 40px 40px 40px 0;
+}
+
+html[dir="rtl"] .section-footer-text p span,
+html[dir="rtl"] .section-footer-text ul li,
+html[dir="rtl"] .section-footer-text.section-footer-contact p span {
+	margin-right: 0;
+	margin-left: 10px;
+}
+
+/************************************/
+/***    06. Case Study, Impact,   ***/
+/***        Team, Testimonials    ***/
+/************************************/
+
+html[dir="rtl"] .case-study-item-list ul li a {
+	letter-spacing: 0;
+	text-transform: none;
+}
+
+html[dir="rtl"] .impact-list-info-ticker {
+	border-radius: 20px 0 0 20px;
+}
+
+html[dir="rtl"] .our-impact-content {
+	margin-left: 0;
+	margin-right: 15px;
+}
+
+html[dir="rtl"] .testimonial-btn {
+	right: auto;
+	left: 0;
+}
+
+html[dir="rtl"] .testimonial-slider .testimonial-button-prev::before {
+	transform: translate(-50%, -50%) rotate(0deg);
+}
+
+html[dir="rtl"] .testimonial-slider .testimonial-button-next::before {
+	transform: translate(-50%, -50%) rotate(180deg);
+}
+
+html[dir="rtl"] .our-awards-slider {
+	margin-left: 0;
+	margin-right: auto;
+}
+
+html[dir="rtl"] .post-item-meta ul li span {
+	margin-left: 0;
+	margin-right: 5px;
+}
+
+html[dir="rtl"] .post-item-meta ul li img {
+	margin-right: 0;
+	margin-left: 8px;
+}
+
+/************************************/
+/***    07. Footer                ***/
+/************************************/
+
+html[dir="rtl"] .footer-links-box {
+	margin-left: 0;
+	margin-right: 6.25vw;
+}
+
+html[dir="rtl"] .footer-links ul li a {
+	text-transform: none;
+}
+
+html[dir="rtl"] .footer-links ul li a::before {
+	left: auto;
+	right: 50%;
+}
+
+html[dir="rtl"] .footer-links ul li a:hover::before {
+	left: auto;
+	right: 0;
+}
+
+/************************************/
+/***    08. Inner Pages           ***/
+/************************************/
+
+/* About Page */
+html[dir="rtl"] .our-approach-image-box {
+	margin-left: 0;
+	margin-right: 30px;
+}
+
+html[dir="rtl"] .our-approach-circle {
+	text-align: left;
+}
+
+html[dir="rtl"] .our-approach-image .icon-box {
+	margin: 0 60px 90px 0;
+}
+
+html[dir="rtl"] .intro-video-counter-item p {
+	margin: 0 0 0 5px;
+}
+
+/* FAQ Accordion */
+html[dir="rtl"] .faq-content {
+	margin-right: 0;
+	margin-left: 15px;
+}
+
+html[dir="rtl"] .faq-item::before {
+	right: auto;
+	left: -25px;
+}
+
+html[dir="rtl"] .faq-accordion .accordion-header .accordion-button {
+	padding: 21px 25px 21px 50px;
+	text-align: right;
+}
+
+html[dir="rtl"] .faq-accordion .accordion-item .accordion-button::after,
+html[dir="rtl"] .faq-accordion .accordion-item .accordion-button.collapsed::after {
+	right: auto;
+	left: 25px;
+	margin-left: 0;
+}
+
+/* Sidebar & Category List */
+html[dir="rtl"] .page-single-sidebar {
+	margin-right: 0;
+	margin-left: 15px;
+}
+
+html[dir="rtl"] .page-category-list ul li a {
+	text-transform: none;
+	padding-right: 0;
+	padding-left: 25px;
+}
+
+html[dir="rtl"] .page-category-list ul li a::before {
+	right: auto;
+	left: 0;
+	transform: translateY(-50%) rotate(-135deg);
+}
+
+html[dir="rtl"] .page-category-list ul li a:hover::before {
+	transform: translateY(-50%) rotate(-180deg);
+}
+
+/* Service Single */
+html[dir="rtl"] .service-benefits-item-list ul li {
+	padding: 30px 65px 30px 30px;
+}
+
+html[dir="rtl"] .service-benefits-item-list ul li::before {
+	left: auto;
+	right: 30px;
+}
+
+/* Blog Single */
+html[dir="rtl"] .post-single-meta ol li {
+	margin-right: 0;
+	margin-left: 15px;
+}
+
+html[dir="rtl"] .post-single-meta ol li:last-child {
+	margin-left: 0;
+}
+
+html[dir="rtl"] .post-single-meta ol li i {
+	margin-right: 0;
+	margin-left: 5px;
+}
+
+html[dir="rtl"] .post-entry ul {
+	padding-left: 0;
+	padding-right: 20px;
+}
+
+html[dir="rtl"] .post-entry blockquote {
+	background-position: right 30px top 35px;
+	padding: 30px 90px 30px 30px;
+}
+
+html[dir="rtl"] .post-social-sharing {
+	text-align: left;
+}
+
+html[dir="rtl"] .post-social-sharing ul li {
+	margin-right: 0;
+	margin-left: 10px;
+}
+
+html[dir="rtl"] .post-social-sharing ul li:last-child {
+	margin-left: 0;
+}
+
+/* Case Study Single */
+html[dir="rtl"] .case-study-entry ul li {
+	padding-left: 0;
+	padding-right: 30px;
+}
+
+html[dir="rtl"] .case-study-entry ul li::before {
+	left: auto;
+	right: 0;
+}
+
+/* Team Single */
+html[dir="rtl"] .member-contact-item:after {
+	right: auto;
+	left: -30px;
+}
+
+html[dir="rtl"] .skills-progress-bar .skillbar .skill-progress .count-bar {
+	left: auto;
+	right: 0;
+}
+
+html[dir="rtl"] .member-skill-info-list ul li {
+	padding-left: 0;
+	padding-right: 30px;
+}
+
+html[dir="rtl"] .member-skill-info-list ul li:before {
+	left: auto;
+	right: 0;
+}
+
+/* Pagination */
+html[dir="rtl"] .page-pagination ul li a .fa-arrow-left-long::before,
+html[dir="rtl"] .page-pagination ul li a .fa-angle-left::before {
+	content: "\f061";
+}
+
+html[dir="rtl"] .page-pagination ul li a .fa-arrow-right-long::before,
+html[dir="rtl"] .page-pagination ul li a .fa-angle-right::before {
+	content: "\f060";
+}
+
+/************************************/
+/***    09. Home Version 2 Silver ***/
+/************************************/
+
+html[dir="rtl"] .satisfy-client-image-silver {
+	margin-left: 0;
+	margin-right: -14px;
+}
+
+html[dir="rtl"] .satisfy-client-image-silver:first-child {
+	margin-right: 0;
+}
+
+html[dir="rtl"] .hero-info-box-silver {
+	margin-left: 0;
+	margin-right: auto;
+}
+
+html[dir="rtl"] .about-us-video-box-silver {
+	margin-right: 0;
+	margin-left: -135px;
+}
+
+html[dir="rtl"] .emergency-support-title-silver {
+	padding: 10px 0px 10px 10px;
+}
+
+html[dir="rtl"] .video-play-button-silver a span i {
+	margin-left: 0;
+	margin-right: 1px;
+}
+
+html[dir="rtl"] .about-us-content-silver {
+	margin-left: 0;
+	margin-right: 10px;
+}
+
+html[dir="rtl"] .why-choose-image-silver {
+	margin-right: 0;
+	margin-left: 80px;
+}
+
+html[dir="rtl"] .why-choose-list-silver ul li {
+	padding-left: 0;
+	padding-right: 25px;
+}
+
+html[dir="rtl"] .why-choose-list-silver ul li::before {
+	left: auto;
+	right: 0;
+}
+
+html[dir="rtl"] .testimonial-rating-silver i {
+	margin-right: 0;
+	margin-left: 2px;
+}
+
+html[dir="rtl"] .testimonial-rating-silver i:last-child {
+	margin-left: 0;
+}
+
+html[dir="rtl"] .footer-links-box-silver {
+	margin-left: 0;
+	margin-right: 5vw;
+}
+
+/************************************/
+/***    10. Home Version 3 Gold   ***/
+/************************************/
+
+html[dir="rtl"] .hero-body-gold .video-play-button-gold a i {
+	margin-left: 0;
+	margin-right: 1px;
+}
+
+html[dir="rtl"] .hero-image-gold {
+	margin: 0 50px 0 30px;
+}
+
+html[dir="rtl"] .best-service-item-gold::before {
+	right: auto;
+	left: -25px;
+}
+
+html[dir="rtl"] .about-us-counter-box-gold::before {
+	right: auto;
+	left: -30px;
+}
+
+html[dir="rtl"] .about-us-image-box-gold {
+	margin-left: 0;
+	margin-right: 15px;
+}
+
+html[dir="rtl"] .satisfy-client-image-gold {
+	margin-left: 0;
+	margin-right: -14px;
+}
+
+html[dir="rtl"] .satisfy-client-image-gold:first-child {
+	margin-right: 0;
+}
+
+html[dir="rtl"] .why-choose-images-gold {
+	margin-left: 0;
+	margin-right: 20px;
+}
+
+html[dir="rtl"] .features-item-content-gold ul li {
+	padding-left: 0;
+	padding-right: 25px;
+}
+
+html[dir="rtl"] .features-item-content-gold ul li::before {
+	left: auto;
+	right: 0;
+}
+
+html[dir="rtl"] .feature-strategy-box-gold .feature-strategy-image-gold figure {
+	margin: -30px auto -40px 0;
+}
+
+html[dir="rtl"] .features-item-image-gold {
+	right: auto;
+	left: -50px;
+}
+
+html[dir="rtl"] .our-faqs-image-gold {
+	padding-right: 0;
+	padding-left: 55px;
+	margin-right: 0;
+	margin-left: 15px;
+}
+
+html[dir="rtl"] .satisfy-client-review-box-gold {
+	right: auto;
+	left: 0;
+}
+
+html[dir="rtl"] .faq-accordion-gold .accordion-header .accordion-button {
+	padding: 18px 20px 18px 45px;
+	text-align: right;
+}
+
+html[dir="rtl"] .faq-accordion-gold .accordion-item .accordion-button::after,
+html[dir="rtl"] .faq-accordion-gold .accordion-item .accordion-button.collapsed::after {
+	right: auto;
+	left: 20px;
+}
+
+html[dir="rtl"] .cta-box-gold .container-fluid {
+	padding-left: 0;
+	padding-right: calc(((100% - 1300px) / 2) + 15px);
+}
+
+html[dir="rtl"] .cta-box-list-gold ul li {
+	text-transform: none;
+	padding: 9px 45px 9px 20px;
+}
+
+html[dir="rtl"] .cta-box-list-gold ul li::before {
+	left: auto;
+	right: 20px;
+}
+
+html[dir="rtl"] .cta-box-image-gold figure {
+	margin: -100px -7.29vw -100px 30px;
+}
+
+html[dir="rtl"] .footer-links-box-gold {
+	margin-left: 0;
+	margin-right: 3.125vw;
+}
+
+html[dir="rtl"] .footer-links-gold::before {
+	right: auto;
+	left: -2.6042vw;
+}
+
+html[dir="rtl"] .footer-contact-item-gold::before {
+	right: auto;
+	left: -30px;
+}
+
+/************************************/
+/***    11. Responsive RTL        ***/
+/************************************/
+
+@media only screen and (max-width: 1680px) {
+	html[dir="rtl"] .cta-box-image-gold figure {
+		margin-left: 30px;
+		margin-right: -50px;
+	}
+}
+
+@media only screen and (max-width: 1440px) {
+	html[dir="rtl"] .footer-links-box-silver {
+		margin-left: 0;
+		margin-right: 30px;
+	}
+
+	html[dir="rtl"] .cta-box-image-gold figure {
+		margin: 0px 0 -100px 30px;
+	}
+}
+
+@media only screen and (max-width: 1024px) {
+	html[dir="rtl"] .section-btn {
+		text-align: right;
+	}
+
+	html[dir="rtl"] .our-impact-content,
+	html[dir="rtl"] .footer-links-box,
+	html[dir="rtl"] .footer-links-box-silver,
+	html[dir="rtl"] .footer-links-box-gold,
+	html[dir="rtl"] .hero-info-box-silver {
+		margin-right: 0;
+	}
+
+	html[dir="rtl"] .page-single-sidebar,
+	html[dir="rtl"] .why-choose-image-silver {
+		margin-left: 0;
+	}
+
+	html[dir="rtl"] .service-benefits-item-list ul li {
+		padding: 20px 50px 20px 20px;
+	}
+
+	html[dir="rtl"] .service-benefits-item-list ul li::before {
+		left: auto;
+		right: 20px;
+	}
+
+	html[dir="rtl"] .features-cta-item-image-gold figure {
+		margin: -40px auto -120px -30px;
+	}
+}
+
+@media only screen and (max-width: 991px) {
+	html[dir="rtl"] .btn-default {
+		padding: 15px 20px 15px 53px;
+	}
+
+	html[dir="rtl"] .btn-default:hover {
+		padding: 15px 53px 15px 20px;
+	}
+
+	html[dir="rtl"] .hero .section-title h1 img {
+		margin-left: 0;
+		margin-right: -14px;
+	}
+
+	html[dir="rtl"] .service-cta-box {
+		padding: 30px 30px 30px 0;
+	}
+
+	html[dir="rtl"] .post-item-meta ul li img {
+		margin-right: 0;
+		margin-left: 5px;
+	}
+
+	html[dir="rtl"] .faq-accordion .accordion-header .accordion-button {
+		padding: 17px 20px 17px 40px;
+	}
+
+	html[dir="rtl"] .faq-accordion .accordion-item .accordion-button::after,
+	html[dir="rtl"] .faq-accordion .accordion-item .accordion-button.collapsed::after {
+		right: auto;
+		left: 20px;
+	}
+
+	html[dir="rtl"] .post-entry blockquote {
+		background-position: right 20px top 25px;
+		padding: 20px 75px 20px 20px;
+	}
+
+	html[dir="rtl"] .post-social-sharing ul {
+		text-align: right;
+	}
+
+	html[dir="rtl"] .case-study-entry ul li {
+		padding-left: 0;
+		padding-right: 25px;
+	}
+
+	html[dir="rtl"] .feature-strategy-box-gold .feature-strategy-image-gold figure {
+		margin: -30px 0 -30px -40px;
+	}
+
+	html[dir="rtl"] .features-cta-item-image-gold figure {
+		margin: -30px auto -75px -30px;
+	}
+
+	html[dir="rtl"] .faq-accordion-gold .accordion-header .accordion-button,
+	html[dir="rtl"] .faq-accordion-gold .accordion-item .accordion-body {
+		padding: 15px 15px 15px 40px;
+	}
+
+	html[dir="rtl"] .faq-accordion-gold .accordion-item .accordion-button::after,
+	html[dir="rtl"] .faq-accordion-gold .accordion-item .accordion-button.collapsed::after {
+		right: auto;
+		left: 15px;
+	}
+
+	html[dir="rtl"] .cta-box-list-gold ul li {
+		padding: 7px 40px 7px 14px;
+	}
+
+	html[dir="rtl"] .cta-box-list-gold ul li::before {
+		left: auto;
+		right: 16px;
+	}
+
+	html[dir="rtl"] .cta-box-image-gold figure {
+		margin: 30px 0px -50px 0;
+	}
+
+	html[dir="rtl"] .cta-box-gold .container-fluid {
+		padding-right: 15px;
+		padding-left: 15px;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	html[dir="rtl"] .hero .section-title h1 img {
+		margin-left: 0;
+		margin-right: -12px;
+	}
+
+	html[dir="rtl"] .hero-content-footer .video-play-button,
+	html[dir="rtl"] .hero-body-gold .video-play-button-gold {
+		margin-left: 0;
+		margin-right: 8px;
+	}
+
+	html[dir="rtl"] .about-us-image {
+		padding: 15px 15px 30px 30px;
+	}
+
+	html[dir="rtl"] .service-cta-box {
+		padding: 20px;
+	}
+
+	html[dir="rtl"] .service-cta-image {
+		margin-left: 0;
+		margin-right: auto;
+	}
+
+	html[dir="rtl"] .service-cta-image figure {
+		margin: 0px 0 -20px -20px;
+	}
+
+	html[dir="rtl"] .our-approach-image .icon-box {
+		margin: 0 40px 50px 0;
+	}
+
+	html[dir="rtl"] .faq-accordion .accordion-header .accordion-button,
+	html[dir="rtl"] .faq-accordion-gold .accordion-header .accordion-button {
+		padding: 12px 15px 12px 35px;
+	}
+
+	html[dir="rtl"] .faq-accordion .accordion-item .accordion-button::after,
+	html[dir="rtl"] .faq-accordion .accordion-item .accordion-button.collapsed::after {
+		right: auto;
+		left: 15px;
+	}
+
+	html[dir="rtl"] .service-benefits-item-list ul li {
+		padding: 15px 40px 15px 15px;
+	}
+
+	html[dir="rtl"] .service-benefits-item-list ul li::before {
+		left: auto;
+		right: 15px;
+	}
+
+	html[dir="rtl"] .member-contact-item:after {
+		right: auto;
+		left: 0;
+	}
+
+	html[dir="rtl"] .member-skill-info-list ul li {
+		padding-left: 0;
+		padding-right: 25px;
+	}
+
+	html[dir="rtl"] .about-us-video-box-silver {
+		margin-right: 0;
+		margin-left: -100px;
+	}
+
+	html[dir="rtl"] .best-service-item-gold::before {
+		right: auto;
+		left: -10px;
+	}
+
+	html[dir="rtl"] .about-us-counter-box-gold::before {
+		right: auto;
+		left: 0;
+	}
+
+	html[dir="rtl"] .our-faqs-image-gold {
+		padding-right: 0;
+		padding-left: 30px;
+	}
+}
